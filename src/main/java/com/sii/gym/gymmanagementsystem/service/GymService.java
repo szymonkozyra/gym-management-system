@@ -1,6 +1,7 @@
 package com.sii.gym.gymmanagementsystem.service;
 
 import com.sii.gym.gymmanagementsystem.dto.GymDTO;
+import com.sii.gym.gymmanagementsystem.exception.BusinessLogicException;
 import com.sii.gym.gymmanagementsystem.mapper.GymMapper;
 import com.sii.gym.gymmanagementsystem.model.Gym;
 import com.sii.gym.gymmanagementsystem.repository.GymRepository;
@@ -20,7 +21,7 @@ public class GymService {
     @Transactional
     public GymDTO create(GymDTO gymDTO) {
         if (gymRepository.existsByName(gymDTO.name())) {
-            throw new RuntimeException("Gym with name '" + gymDTO.name() + "' already exists.");
+            throw new BusinessLogicException("Gym with name '" + gymDTO.name() + "' already exists.");
         }
         Gym gym = gymMapper.toEntity(gymDTO);
         Gym savedGym = gymRepository.save(gym);

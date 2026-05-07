@@ -1,6 +1,8 @@
 package com.sii.gym.gymmanagementsystem.service;
 
 import com.sii.gym.gymmanagementsystem.dto.MemberDTO;
+import com.sii.gym.gymmanagementsystem.exception.BusinessLogicException;
+import com.sii.gym.gymmanagementsystem.exception.ResourceNotFoundException;
 import com.sii.gym.gymmanagementsystem.mapper.MemberMapper;
 import com.sii.gym.gymmanagementsystem.model.Member;
 import com.sii.gym.gymmanagementsystem.model.MemberStatus;
@@ -25,11 +27,11 @@ public class MemberService {
     @Transactional
     public MemberDTO registerMember(Long planId, MemberDTO memberDTO) {
         MembershipPlan plan = planRepository.findById(planId)
-                .orElseThrow(() -> new RuntimeException("Plan not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Membership plan with id " + planId + " not found"));
 
         long activeMembersAmount = memberRepository.countByMembershipPlanIdAndStatus(planId, MemberStatus.ACTIVE);
-        if (activeMembersAmount > plan.getMaxMembers()) {
-            throw new RuntimeException("Membership plan already has maximum amount of members.");
+        if (activeMembersAmount >= plan.getMaxMembers()) {
+            throw new BusinessLogicException("Membership plan already has maximum amount of members (" + plan.getMaxMembers() + ").");
         }
 
         Member member = memberMapper.toEntity(memberDTO);
