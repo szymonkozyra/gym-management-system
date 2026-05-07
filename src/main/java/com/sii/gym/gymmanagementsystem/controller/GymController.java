@@ -1,6 +1,7 @@
 package com.sii.gym.gymmanagementsystem.controller;
 
 import com.sii.gym.gymmanagementsystem.dto.GymDTO;
+import com.sii.gym.gymmanagementsystem.dto.RevenueReportDTO;
 import com.sii.gym.gymmanagementsystem.service.GymService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -28,5 +29,11 @@ public class GymController {
     @Operation(summary = "List all gyms")
     public ResponseEntity<List<GymDTO>> getAllGyms() {
         return new ResponseEntity<>(gymService.getAllGyms(), HttpStatus.OK);
+    }
+
+    @GetMapping("/revenue-report")
+    @Operation(summary = "Return the revenue report grouped by gym and currency")
+    public ResponseEntity<List<RevenueReportDTO>> getRevenueReport() {
+        return ResponseEntity.ok(gymService.getRevenueReport());
     }
 }
