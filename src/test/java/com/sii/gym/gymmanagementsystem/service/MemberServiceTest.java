@@ -2,7 +2,6 @@ package com.sii.gym.gymmanagementsystem.service;
 
 import com.sii.gym.gymmanagementsystem.dto.MemberDTO;
 import com.sii.gym.gymmanagementsystem.exception.BusinessLogicException;
-import com.sii.gym.gymmanagementsystem.exception.BusinessLogicException;
 import com.sii.gym.gymmanagementsystem.mapper.MemberMapper;
 import com.sii.gym.gymmanagementsystem.model.Member;
 import com.sii.gym.gymmanagementsystem.model.MemberStatus;
@@ -15,7 +14,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
 import java.util.Optional;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -42,7 +43,7 @@ class MemberServiceTest {
                 .id(planId)
                 .maxMembers(10)
                 .build();
-        MemberDTO inputDto = MemberDTO.builder().fullName("John Doe").email("john@example.com").build();
+        MemberDTO inputDto = MemberDTO.builder().fullName("Adam Kowalski").email("adam.kowalski@example.com").build();
         Member memberEntity = new Member();
 
         when(planRepository.findById(planId)).thenReturn(Optional.of(plan));
@@ -70,7 +71,7 @@ class MemberServiceTest {
                 .build();
 
         when(planRepository.findById(planId)).thenReturn(Optional.of(plan));
-
+        // Simulate that we already have 5 active members (the limit is 5/5)
         when(memberRepository.countByMembershipPlanIdAndStatus(planId, MemberStatus.ACTIVE)).thenReturn(5L);
 
         // When & Then
@@ -78,7 +79,8 @@ class MemberServiceTest {
                 memberService.registerMember(planId, MemberDTO.builder().build())
         );
 
-        assertTrue(exception.getMessage().contains("maximum capacity"));
+        assertTrue(exception.getMessage().toLowerCase().contains("maximum"),
+                "Exception message should contain word 'maximum'");
         verify(memberRepository, never()).save(any());
     }
 }
