@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GymRepository extends JpaRepository<Gym, Long> {
-    // dodatkowe sprawdzanie unikalności nazwy (wymaganie funkcjonalne nr 1)
+    // Additional verification of name uniqueness
     boolean existsByName(String name);
 }

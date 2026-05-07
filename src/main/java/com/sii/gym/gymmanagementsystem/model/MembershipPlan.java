@@ -22,7 +22,7 @@ public class MembershipPlan {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private PlanType planType;
+    private PlanType type;
 
     @Column(nullable = false)
     private BigDecimal price;

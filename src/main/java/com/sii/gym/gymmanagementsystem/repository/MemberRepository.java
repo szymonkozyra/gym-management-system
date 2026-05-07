@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    // Liczenie aktywnych członków w danym planie żeby nie przekroczyć maxMembers
+    // Counting active members in a given plan to ensure the limit of maxMembers is not exceeded
     long countByMembershipPlanIdAndStatus(Long membershipPlanId, MemberStatus status);
 
     boolean existsByEmail(String email);

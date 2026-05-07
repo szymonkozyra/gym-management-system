@@ -8,7 +8,7 @@ import java.util.List;
 
 @Repository
 public interface MembershipPlanRepository extends JpaRepository<MembershipPlan, Long> {
-    // Dla Endpointu Pobierania wszystkich planów dla danej siłowni
+    // For the Endpoint: Download all plans for a given gym
     List<MembershipPlan> findByGymId(Long gymId);
 
     boolean existsByNameAndGymId(String name, Long gymId);
